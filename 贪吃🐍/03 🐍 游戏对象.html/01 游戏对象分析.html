@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    #map {
+      width: 800px;
+      height: 500px;
+      background-color: #ccc;
+      margin: 50px auto 0;
+      /*食物和蛇的定位是相对于地图*/
+      position: relative;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="map"></div>
+  <script src="./food.js"></script>
+  <script src="./snake.js"></script>
+  <script>
+   
+    var map = document.querySelector('#map');
+
+    // 游戏对象： 把他理解成裁判（用来开始游戏，和结束游戏）
+    // 游戏对象需要管理和这个游戏相关的所有对象（食物对象、蛇对象、地图元素）
+    //  属性：
+    //      1. 食物对象
+    //      2. 蛇对象
+    //      
+    //  方法：
+    //      1. 开始游戏： startGame
+    //      2. 结束游戏
+
+    //创建游戏对象，然后添加属性 （有食物对象和蛇对象）
+
+    function Game () {
+      this.food = new Food();
+      this.snake = new Snake();
+    }
+
+    //给Game的原型添加 startGame ，游戏开始的方法
+
+    Game.prototype.startGame = function () {
+
+      //把蛇和食物渲染在地图上  直接调用蛇和食物的render方法即可
+      this.food.render(map);
+      this.snake.render(map);
+
+      console.log(this.snake);
+      var that = this;
+
+      var timerId = setInterval(function(){
+        that.snake.move(map);
+      },500)
+    }
+
+    
+
+
+   //var f = new Food();
+   //f.render(map);
+
+    
+    
+
+
+    //var s = new Snake();
+    //s.render(map);
+
+   
+
+
+    var g = new Game();
+    g.startGame();
+    
+
+    
+
+  </script>
+</body>
+
+</html>

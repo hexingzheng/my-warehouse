@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    #map {
+      width: 800px;
+      height: 500px;
+      background-color: #ccc;
+      margin: 50px auto 0;
+      /*食物和蛇的定位是相对于地图*/
+      position: relative;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="map"></div>
+  <script>
+    //食物对象属性： 宽 高 背景色 位置（x y） 
+    //用自定义构造函数创建一个食物对象
+    var map = document.querySelector('#map');
+
+    function Food(options) {
+      options = options || {} // 给options设置默认值为空对象；目的是为了防止下面代码报错
+      this.width = options.width || 20;
+      this.height = options.height || 20;
+      this.bgc = options.bgc || 'lime';
+      this.x = options.x || 0;
+      this.y = options.y || 0;
+    }
+
+    //自定义一个渲染方法添加到实例对象的原型链上
+
+    Food.prototype.render = function () {
+      //创建食物
+      var div = document.createElement('div');
+      //设置食物
+      div.style.width = this.width + 'px';
+      div.style.height = this.height + 'px';
+      div.style.background = this.bgc;
+      //设置食物的位置需要注意  1. 位置随机 2.位置等于坐标*食物的宽度
+      //  this.x = parseInt(Math.random()*地图的宽度/食物的宽度)  高度同理可得
+      this.x = parseInt(Math.random() * map.offsetWidth / this.width);
+      this.y = parseInt(Math.random() * map.offsetHeight / this.height);
+      div.style.position = 'absolute';
+      div.style.left = this.x * this.width + 'px';
+      div.style.top = this.y * this.height + 'px';
+      //添加食物
+      map.appendChild(div);
+    }
+
+    var f = new Food();
+    f.render();
+  </script>
+</body>
+
+</html>

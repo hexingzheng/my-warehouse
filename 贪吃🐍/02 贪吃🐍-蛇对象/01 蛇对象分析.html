@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    #map {
+      width: 800px;
+      height: 500px;
+      background-color: #ccc;
+      margin: 50px auto 0;
+      /*食物和蛇的定位是相对于地图*/
+      position: relative;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="map"></div>
+  <script src="./food.js"></script>
+  <script>
+    //食物
+    //食物对象属性： 宽 高 背景色 位置（x y） 
+    //用自定义构造函数创建一个食物对象
+    var map = document.querySelector('#map');
+
+    var f = new Food();
+    f.render(map);
+
+    //蛇对象分析 
+    // 宽 高 蛇头的背景颜色 蛇身背景颜色 蛇的位置坐标
+
+    //创建蛇 
+
+    function Snake(options) {
+      options = options || {} ; // 给options设置默认值为空对象；目的是为了防止下面代码报错
+      this.width = options.width || 20 ;
+      this.height = options.height || 20 ;
+      this.headBgc = options.headBgc || 'blue';
+      this.bodyBgc = options.bodyBgc || 'red';
+      this.body = options.body || [
+        {x: 2, y: 0},  //蛇头位置
+        {x: 1, y: 0},  //蛇中间一节的位置
+        {x: 0, y: 0}   //蛇尾位置
+      ]
+    }
+    var s = new Snake();
+    console.log(s);
+    //自定渲染方法添加到原型再把蛇添加到map
+
+    Snake.prototype.render = function () {
+      for (var i = 0; i < this.body.length; i++) {
+        var item = this.body[i] ;//获得每一节蛇身体坐标
+        console.log(item);
+
+        //创建蛇
+        var span = document.createElement('span');
+
+        //设置蛇
+        span.style.width = this.width + 'px';
+        span.style.height = this.height + 'px';
+
+        //判断蛇身体颜色（用if ... else ...也可以）
+
+        span.style.backgroundColor = i === 0 ? this.headBgc : this.bodyBgc;
+        
+        //蛇的位置设置 
+
+        span.style.position = 'absolute';
+        span.style.left = item.x * this.width + 'px';
+        span.style.top = item.y * this.height + 'px';
+
+        //添加蛇到地图
+        map.appendChild(span);
+      }
+    }
+
+
+    var s = new Snake();
+    s.render();
+    
+
+    
+
+  </script>
+</body>
+
+</html>
